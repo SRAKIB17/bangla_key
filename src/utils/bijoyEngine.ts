@@ -68,7 +68,9 @@ export const BIJOY_KEY_MAP: Record<string, string> = {
   x: 'ও',
   X: 'ৌ',
   '\\': 'ৎ',
+  '?': 'ৎ',
   '|': 'ঃ',
+  '/': 'ঃ',
   '$': '৳',
   '~': 'ঁ',
   '`': '‘',
@@ -132,6 +134,10 @@ export function isBengaliKar(char: string): boolean {
   return (code >= 0x09be && code <= 0x09cc) || code === 0x09d7;
 }
 
+export interface ProcessBijoyKeyOptions {
+  mobileCompatMode?: boolean; // When true, '/' -> 'ঃ' and '?' -> 'ৎ'. When false, '/' and '?' are punctuation. Default: true.
+}
+
 export interface ProcessKeyResult {
   textToInsert: string;
   deleteCount: number; // characters to remove before inserting
@@ -143,12 +149,22 @@ export interface ProcessKeyResult {
  * @param key The key string (e.g. 'j', 'J', 'g', 'G', etc.)
  * @param lastChar The character immediately before the cursor
  * @param state Current engine state
+ * @param options Engine options (e.g. mobileCompatMode)
  */
 export function processBijoyKey(
   key: string,
   lastChar: string | null,
-  state: BijoyEngineState
+  state: BijoyEngineState,
+  options: ProcessBijoyKeyOptions = { mobileCompatMode: true }
 ): ProcessKeyResult {
+  // If mobile compatibility mode is disabled, keep '/' and '?' as standard punctuation
+  if (options.mobileCompatMode === false && (key === '/' || key === '?')) {
+    return {
+      textToInsert: key,
+      deleteCount: 0,
+      newState: INITIAL_BIJOY_STATE,
+    };
+  }
   // If key is Shift+G (G in uppercase) -> দাড়ি '।'
   if (key === 'G' && !state.pendingG) {
     return {
@@ -396,7 +412,8 @@ export function processBijoyKey(
 export function handleBijoyTextChangeDiff(
   prevText: string,
   newText: string,
-  state: BijoyEngineState
+  state: BijoyEngineState,
+  options: ProcessBijoyKeyOptions = { mobileCompatMode: true }
 ): { text: string; newState: BijoyEngineState } {
   let start = 0;
   while (
@@ -430,7 +447,7 @@ export function handleBijoyTextChangeDiff(
   for (let i = 0; i < inserted.length; i++) {
     const char = inserted[i];
     const lastChar = currentText.length > 0 ? currentText[currentText.length - 1] : null;
-    const res = processBijoyKey(char, lastChar, currentState);
+    const res = processBijoyKey(char, lastChar, currentState, options);
     currentState = res.newState;
 
     if (res.deleteCount > 0) {
@@ -446,14 +463,17 @@ export function handleBijoyTextChangeDiff(
 /**
  * Convert an entire English Bijoy keystroke string to Unicode Bangla
  */
-export function convertBijoyKeystrokesToUnicode(input: string): string {
+export function convertBijoyKeystrokesToUnicode(
+  input: string,
+  options: ProcessBijoyKeyOptions = { mobileCompatMode: true }
+): string {
   let state = INITIAL_BIJOY_STATE;
   let result = '';
 
   for (let i = 0; i < input.length; i++) {
     const char = input[i];
     const lastChar = result.length > 0 ? result[result.length - 1] : null;
-    const res = processBijoyKey(char, lastChar, state);
+    const res = processBijoyKey(char, lastChar, state, options);
     state = res.newState;
 
     if (res.deleteCount > 0) {

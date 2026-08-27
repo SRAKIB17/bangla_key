@@ -61,6 +61,7 @@ export function BijoyEditor({
   const [text, setText] = useState<string>('');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [isBijoyMode, setIsBijoyMode] = useState<boolean>(true);
+  const [mobileCompatMode, setMobileCompatMode] = useState<boolean>(Platform.OS !== 'web');
   const [hideSoftKeyboard, setHideSoftKeyboard] = useState<boolean>(true);
   const [fontSize, setFontSize] = useState<number>(isLandscape ? 20 : 18);
   const [showCheatSheet, setShowCheatSheet] = useState<boolean>(false);
@@ -76,6 +77,7 @@ export function BijoyEditor({
     text,
     selection,
     isBijoyMode,
+    mobileCompatMode,
     engineState,
     history,
     historyIndex,
@@ -86,11 +88,12 @@ export function BijoyEditor({
       text,
       selection,
       isBijoyMode,
+      mobileCompatMode,
       engineState,
       history,
       historyIndex,
     };
-  }, [text, selection, isBijoyMode, engineState, history, historyIndex]);
+  }, [text, selection, isBijoyMode, mobileCompatMode, engineState, history, historyIndex]);
 
   const showToast = (message: string, icon: string = 'checkmark-circle') => {
     setToast({ message, icon });
@@ -190,7 +193,12 @@ export function BijoyEditor({
     }
 
     const currentState = stateRef.current.engineState;
-    const diffResult = handleBijoyTextChangeDiff(currentText, newText, currentState);
+    const diffResult = handleBijoyTextChangeDiff(
+      currentText,
+      newText,
+      currentState,
+      { mobileCompatMode: stateRef.current.mobileCompatMode }
+    );
     setEngineState(diffResult.newState);
     updateTextWithHistory(diffResult.text);
   };
@@ -438,6 +446,48 @@ export function BijoyEditor({
               </ThemedText>
             </TouchableOpacity>
 
+            {/* Mobile / PC Layout Toggle */}
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={[
+                styles.pillBtn,
+                {
+                  backgroundColor: mobileCompatMode
+                    ? isDark ? '#1E1B4B' : '#EEF2FF'
+                    : isDark ? '#334155' : '#F1F5F9',
+                  borderColor: mobileCompatMode ? '#6366F1' : '#CBD5E1',
+                },
+              ]}
+              onPress={() => {
+                const next = !mobileCompatMode;
+                setMobileCompatMode(next);
+                showToast(
+                  next
+                    ? 'মোবাইল মোড সক্রিয়: / ও ? দিয়ে ঃ ও ৎ'
+                    : 'ডেস্কটপ মোড সক্রিয়: \\ ও | দিয়ে ৎ ও ঃ',
+                  next ? 'phone-portrait-outline' : 'desktop-outline'
+                );
+              }}
+            >
+              <MaterialCommunityIcons
+                name={mobileCompatMode ? 'cellphone' : 'laptop'}
+                size={14}
+                color={mobileCompatMode ? '#6366F1' : isDark ? '#94A3B8' : '#64748B'}
+              />
+              <ThemedText
+                style={[
+                  styles.pillText,
+                  {
+                    color: mobileCompatMode
+                      ? '#6366F1'
+                      : isDark ? '#CBD5E1' : '#475569',
+                  },
+                ]}
+              >
+                {mobileCompatMode ? 'মোবাইল / ?' : 'পিসি \\ |'}
+              </ThemedText>
+            </TouchableOpacity>
+
             {/* Guide Modal Trigger */}
             <TouchableOpacity
               activeOpacity={0.7}
@@ -535,6 +585,35 @@ export function BijoyEditor({
               onPress={handleCopy}
             >
               <Ionicons name="copy-outline" size={13} color={isDark ? '#F8FAFC' : '#0F172A'} />
+            </TouchableOpacity>
+
+            {/* Mobile / PC Layout Toggle Pill */}
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[
+                styles.landscapeMiniPill,
+                {
+                  backgroundColor: mobileCompatMode ? (isDark ? '#1E1B4B' : '#EEF2FF') : (isDark ? '#1E293B' : '#F1F5F9'),
+                  borderColor: mobileCompatMode ? '#6366F1' : isDark ? '#334155' : '#CBD5E1',
+                  borderWidth: 1,
+                },
+              ]}
+              onPress={() => {
+                const next = !mobileCompatMode;
+                setMobileCompatMode(next);
+                showToast(
+                  next
+                    ? 'মোবাইল মোড: / ও ? দিয়ে ঃ ও ৎ'
+                    : 'ডেস্কটপ মোড: \\ ও | দিয়ে ৎ ও ঃ',
+                  next ? 'phone-portrait-outline' : 'desktop-outline'
+                );
+              }}
+            >
+              <MaterialCommunityIcons
+                name={mobileCompatMode ? 'cellphone' : 'laptop'}
+                size={13}
+                color={mobileCompatMode ? '#6366F1' : isDark ? '#94A3B8' : '#64748B'}
+              />
             </TouchableOpacity>
 
             {/* Guide Pill */}
@@ -744,6 +823,7 @@ export function BijoyEditor({
       <BijoyCheatSheet
         visible={showCheatSheet}
         onClose={() => setShowCheatSheet(false)}
+        mobileCompatMode={mobileCompatMode}
         onSelectCharacter={(char) => {
           handleManualInsert(char);
           setShowCheatSheet(false);

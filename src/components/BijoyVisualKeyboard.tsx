@@ -65,9 +65,13 @@ function KeyCap({
 
 interface BijoyVisualKeyboardProps {
   onKeyClick?: (char: string) => void;
+  mobileCompatMode?: boolean;
 }
 
-export function BijoyVisualKeyboard({ onKeyClick }: BijoyVisualKeyboardProps) {
+export function BijoyVisualKeyboard({
+  onKeyClick,
+  mobileCompatMode = true,
+}: BijoyVisualKeyboardProps) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -155,7 +159,11 @@ export function BijoyVisualKeyboard({ onKeyClick }: BijoyVisualKeyboardProps) {
             <KeyCap eng="M" normalBangla="ম" shiftBangla="শ" isDark={isDark} onPress={() => send('m')} />
             <KeyCap eng="," normalBangla="," shiftBangla="<" isDark={isDark} onPress={() => send(',')} />
             <KeyCap eng="." normalBangla="." shiftBangla=">" isDark={isDark} onPress={() => send('.')} />
-            <KeyCap eng="/" normalBangla="/" shiftBangla="?" isDark={isDark} onPress={() => send('/')} />
+            {mobileCompatMode ? (
+              <KeyCap eng="/" normalBangla="ঃ" shiftBangla="ৎ" isDark={isDark} onPress={() => send('/')} />
+            ) : (
+              <KeyCap eng="/" normalBangla="/" shiftBangla="?" isDark={isDark} onPress={() => send('/')} />
+            )}
           </View>
         </View>
       </ScrollView>

@@ -29,6 +29,7 @@ interface BijoyCheatSheetProps {
   visible: boolean;
   onClose: () => void;
   onSelectCharacter?: (char: string) => void;
+  mobileCompatMode?: boolean;
 }
 
 type TabType = 'visual' | 'conjuncts' | 'vowels' | 'consonants' | 'kars';
@@ -37,6 +38,7 @@ export function BijoyCheatSheet({
   visible,
   onClose,
   onSelectCharacter,
+  mobileCompatMode = true,
 }: BijoyCheatSheetProps) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -272,6 +274,7 @@ export function BijoyCheatSheet({
                 </ThemedText>
               </View>
               <BijoyVisualKeyboard
+                mobileCompatMode={mobileCompatMode}
                 onKeyClick={(char) => {
                   if (onSelectCharacter) onSelectCharacter(char);
                 }}
