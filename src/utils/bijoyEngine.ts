@@ -67,8 +67,6 @@ export const BIJOY_KEY_MAP: Record<string, string> = {
   F: 'অ',
   x: 'ও',
   X: 'ৌ',
-  '/': 'ঃ',
-  '?': 'ৎ',
   '\\': 'ৎ',
   '|': 'ঃ',
   '$': '৳',

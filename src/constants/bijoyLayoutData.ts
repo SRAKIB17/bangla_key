@@ -55,9 +55,9 @@ export const BIJOY_CONSONANTS: BijoyKeyItem[] = [
   { char: 'ড়', keys: 'P' },
   { char: 'ঢ়', keys: 'Shift+P' },
   { char: 'য়', keys: 'Shift+W' },
-  { char: 'ৎ', keys: 'Shift+/' },
+  { char: 'ৎ', keys: '\\' },
   { char: 'ং', keys: 'Shift+Q' },
-  { char: 'ঃ', keys: '/' },
+  { char: 'ঃ', keys: 'Shift+\\ (বা |)' },
   { char: 'ঁ', keys: 'Shift+7 (বা ~)' },
 ];
 

@@ -155,7 +155,7 @@ export function BijoyVisualKeyboard({ onKeyClick }: BijoyVisualKeyboardProps) {
             <KeyCap eng="M" normalBangla="ম" shiftBangla="শ" isDark={isDark} onPress={() => send('m')} />
             <KeyCap eng="," normalBangla="," shiftBangla="<" isDark={isDark} onPress={() => send(',')} />
             <KeyCap eng="." normalBangla="." shiftBangla=">" isDark={isDark} onPress={() => send('.')} />
-            <KeyCap eng="/" normalBangla="ঃ" shiftBangla="?" isDark={isDark} onPress={() => send('/')} />
+            <KeyCap eng="/" normalBangla="/" shiftBangla="?" isDark={isDark} onPress={() => send('/')} />
           </View>
         </View>
       </ScrollView>
