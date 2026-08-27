@@ -11,7 +11,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Ionicons,
   MaterialCommunityIcons,
-  Feather,
 } from '@expo/vector-icons';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
@@ -43,17 +42,17 @@ export function BijoyHelpModal({ visible, onClose }: BijoyHelpModalProps) {
               styles.header,
               {
                 borderBottomColor: isDark ? '#1E293B' : '#E2E8F0',
-                backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
+                backgroundColor: isDark ? '#090D16' : '#FFFFFF',
               },
             ]}
           >
-            <View style={styles.headerLeft}>
-              <View style={styles.headerIconBox}>
-                <Ionicons name="help-buoy" size={20} color="#2563EB" />
+            <View style={styles.headerTitleRow}>
+              <View style={styles.sparkleBadge}>
+                <Ionicons name="bulb" size={18} color="#F59E0B" />
               </View>
               <View>
-                <ThemedText style={styles.headerTitle}>টাইপিং সাহায্য ও গাইড</ThemedText>
-                <ThemedText style={styles.headerSubtitle}>সহজ আইকন গাইড</ThemedText>
+                <ThemedText style={styles.headerTitle}>ব্যবহার নির্দেশিকা</ThemedText>
+                <ThemedText style={styles.headerSubtitle}>সহজ ৪ ধাপের গাইড</ThemedText>
               </View>
             </View>
 
@@ -72,331 +71,322 @@ export function BijoyHelpModal({ visible, onClose }: BijoyHelpModalProps) {
             </TouchableOpacity>
           </View>
 
-          {/* Icon-Based Tab Bar */}
+          {/* Capsule Tab Switcher */}
           <View
             style={[
               styles.tabBarWrapper,
               {
-                backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
+                backgroundColor: isDark ? '#090D16' : '#FFFFFF',
                 borderBottomColor: isDark ? '#1E293B' : '#E2E8F0',
               },
             ]}
           >
             <View
               style={[
-                styles.tabTrack,
-                { backgroundColor: isDark ? '#1E293B' : '#F1F5F9' },
+                styles.capsuleTrack,
+                { backgroundColor: isDark ? '#151C2C' : '#F1F5F9' },
               ]}
             >
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={[
-                  styles.tabButton,
-                  activeTab === 'quickstart' && [
-                    styles.activeTabButton,
-                    { backgroundColor: isDark ? '#2563EB' : '#FFFFFF' },
-                  ],
+                  styles.capsuleBtn,
+                  activeTab === 'quickstart' && styles.activeCapsuleBtn,
                 ]}
                 onPress={() => setActiveTab('quickstart')}
               >
                 <Ionicons
-                  name="flash"
-                  size={16}
-                  color={
-                    activeTab === 'quickstart'
-                      ? isDark
-                        ? '#FFFFFF'
-                        : '#2563EB'
-                      : isDark
-                      ? '#94A3B8'
-                      : '#64748B'
-                  }
+                  name="git-commit-outline"
+                  size={15}
+                  color={activeTab === 'quickstart' ? '#FFFFFF' : isDark ? '#94A3B8' : '#64748B'}
                 />
                 <ThemedText
                   style={[
-                    styles.tabButtonText,
-                    activeTab === 'quickstart' && [
-                      styles.activeTabButtonText,
-                      { color: isDark ? '#FFFFFF' : '#2563EB' },
-                    ],
+                    styles.capsuleText,
+                    activeTab === 'quickstart' && styles.activeCapsuleText,
                   ]}
                 >
-                  শুরু করার নিয়ম
+                  টাইপিং টাইমলাইন
                 </ThemedText>
               </TouchableOpacity>
 
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={[
-                  styles.tabButton,
-                  activeTab === 'mobile_keys' && [
-                    styles.activeTabButton,
-                    { backgroundColor: isDark ? '#2563EB' : '#FFFFFF' },
-                  ],
+                  styles.capsuleBtn,
+                  activeTab === 'mobile_keys' && styles.activeCapsuleBtn,
                 ]}
                 onPress={() => setActiveTab('mobile_keys')}
               >
                 <MaterialCommunityIcons
-                  name="cellphone-key"
-                  size={17}
-                  color={
-                    activeTab === 'mobile_keys'
-                      ? isDark
-                        ? '#FFFFFF'
-                        : '#2563EB'
-                      : isDark
-                      ? '#94A3B8'
-                      : '#64748B'
-                  }
+                  name="compare"
+                  size={16}
+                  color={activeTab === 'mobile_keys' ? '#FFFFFF' : isDark ? '#94A3B8' : '#64748B'}
                 />
                 <ThemedText
                   style={[
-                    styles.tabButtonText,
-                    activeTab === 'mobile_keys' && [
-                      styles.activeTabButtonText,
-                      { color: isDark ? '#FFFFFF' : '#2563EB' },
-                    ],
+                    styles.capsuleText,
+                    activeTab === 'mobile_keys' && styles.activeCapsuleText,
                   ]}
                 >
-                  ৎ ও ঃ শর্টকাট
+                  মোবাইল vs পিসি
                 </ThemedText>
               </TouchableOpacity>
             </View>
           </View>
 
-          {/* Scrollable Content */}
+          {/* Main Body */}
           <ScrollView
             style={styles.scrollView}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContainer}
           >
-            {/* TAB 1: ICON-BASED QUICK START */}
+            {/* TAB 1: CONNECTED TIMELINE FLOW */}
             {activeTab === 'quickstart' && (
-              <View style={styles.iconList}>
-                {/* Item 1: USB Connection */}
-                <View
-                  style={[
-                    styles.iconCard,
-                    {
-                      backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
-                      borderColor: isDark ? '#1E293B' : '#E2E8F0',
-                    },
-                  ]}
-                >
-                  <View style={[styles.leadingIcon, { backgroundColor: '#2563EB' }]}>
-                    <MaterialCommunityIcons name="usb" size={22} color="#FFFFFF" />
+              <View style={styles.timelineWrapper}>
+                {/* Timeline Item 1 */}
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineLeftTrack}>
+                    <View style={[styles.timelineNode, { backgroundColor: '#2563EB' }]}>
+                      <ThemedText style={styles.nodeNumber}>১</ThemedText>
+                    </View>
+                    <View style={[styles.timelineLine, { backgroundColor: isDark ? '#1E293B' : '#E2E8F0' }]} />
                   </View>
-                  <View style={styles.cardContent}>
-                    <ThemedText style={styles.itemTitle}>১. কিবোর্ড কানেক্ট করুন</ThemedText>
-                    <ThemedText style={styles.itemDesc}>
-                      OTG কনভার্টার দিয়ে যেকোনো USB বা ব্লুটুথ কিবোর্ড মোবাইলে লাগান। কোনো বাড়তি অ্যাপ লাগবে না।
+                  <View
+                    style={[
+                      styles.timelineCard,
+                      {
+                        backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
+                        borderColor: isDark ? '#1E293B' : '#E2E8F0',
+                      },
+                    ]}
+                  >
+                    <View style={styles.cardHeaderWithIcon}>
+                      <MaterialCommunityIcons name="usb-port" size={18} color="#2563EB" />
+                      <ThemedText style={styles.cardMainHeading}>কিবোর্ড সংযুক্ত করুন</ThemedText>
+                    </View>
+                    <ThemedText style={styles.cardParagraph}>
+                      একটি সাধারণ OTG অ্যাডাপ্টার দিয়ে আপনার USB বা ব্লুটুথ কিবোর্ড মোবাইলে প্লাগ করুন।
                     </ThemedText>
                   </View>
                 </View>
 
-                {/* Item 2: Bijoy Mode */}
-                <View
-                  style={[
-                    styles.iconCard,
-                    {
-                      backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
-                      borderColor: isDark ? '#1E293B' : '#E2E8F0',
-                    },
-                  ]}
-                >
-                  <View style={[styles.leadingIcon, { backgroundColor: '#10B981' }]}>
-                    <MaterialCommunityIcons name="keyboard-outline" size={22} color="#FFFFFF" />
+                {/* Timeline Item 2 */}
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineLeftTrack}>
+                    <View style={[styles.timelineNode, { backgroundColor: '#10B981' }]}>
+                      <ThemedText style={styles.nodeNumber}>২</ThemedText>
+                    </View>
+                    <View style={[styles.timelineLine, { backgroundColor: isDark ? '#1E293B' : '#E2E8F0' }]} />
                   </View>
-                  <View style={styles.cardContent}>
-                    <ThemedText style={styles.itemTitle}>২. বিজয় মোডে টাইপ করুন</ThemedText>
-                    <ThemedText style={styles.itemDesc}>
-                      উপরে [বিজয় মোড] চালু থাকলে ইংরেজি কি চাপলেই স্বয়ংক্রিয়ভাবে বাংলা লেখা হয়ে যাবে।
+                  <View
+                    style={[
+                      styles.timelineCard,
+                      {
+                        backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
+                        borderColor: isDark ? '#1E293B' : '#E2E8F0',
+                      },
+                    ]}
+                  >
+                    <View style={styles.cardHeaderWithIcon}>
+                      <MaterialCommunityIcons name="keyboard-outline" size={18} color="#10B981" />
+                      <ThemedText style={styles.cardMainHeading}>বিজয় মোডে টাইপ করুন</ThemedText>
+                    </View>
+                    <ThemedText style={styles.cardParagraph}>
+                      বিজয় মোড অন রেখে কিবোর্ডে ইংরেজি চাপলেই ইউনিকোড বাংলায় কনভার্ট হবে।
                     </ThemedText>
 
-                    {/* Mini Chips */}
-                    <View style={styles.badgeRow}>
-                      <View style={styles.chipPill}>
-                        <ThemedText style={styles.chipText}>J ➔ ক</ThemedText>
-                      </View>
-                      <View style={styles.chipPill}>
-                        <ThemedText style={styles.chipText}>Shift+J ➔ খ</ThemedText>
-                      </View>
-                      <View style={styles.chipPill}>
-                        <ThemedText style={styles.chipText}>G+F ➔ আ</ThemedText>
-                      </View>
-                      <View style={styles.chipPill}>
-                        <ThemedText style={styles.chipText}>C+J ➔ কে</ThemedText>
-                      </View>
+                    {/* Flow Pills */}
+                    <View style={styles.flowRow}>
+                      <View style={styles.flowPill}><ThemedText style={styles.flowKey}>J</ThemedText><ThemedText style={styles.flowResult}>➔ ক</ThemedText></View>
+                      <View style={styles.flowPill}><ThemedText style={styles.flowKey}>Shift+J</ThemedText><ThemedText style={styles.flowResult}>➔ খ</ThemedText></View>
+                      <View style={styles.flowPill}><ThemedText style={styles.flowKey}>G+F</ThemedText><ThemedText style={styles.flowResult}>➔ আ</ThemedText></View>
+                      <View style={styles.flowPill}><ThemedText style={styles.flowKey}>C+J</ThemedText><ThemedText style={styles.flowResult}>➔ কে</ThemedText></View>
                     </View>
                   </View>
                 </View>
 
-                {/* Item 3: Soft Keyboard OTG Toggle */}
-                <View
-                  style={[
-                    styles.iconCard,
-                    {
-                      backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
-                      borderColor: isDark ? '#1E293B' : '#E2E8F0',
-                    },
-                  ]}
-                >
-                  <View style={[styles.leadingIcon, { backgroundColor: '#F59E0B' }]}>
-                    <MaterialCommunityIcons name="cellphone-text" size={22} color="#FFFFFF" />
+                {/* Timeline Item 3 */}
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineLeftTrack}>
+                    <View style={[styles.timelineNode, { backgroundColor: '#F59E0B' }]}>
+                      <ThemedText style={styles.nodeNumber}>৩</ThemedText>
+                    </View>
+                    <View style={[styles.timelineLine, { backgroundColor: isDark ? '#1E293B' : '#E2E8F0' }]} />
                   </View>
-                  <View style={styles.cardContent}>
-                    <ThemedText style={styles.itemTitle}>৩. অন-স্ক্রিন কিবোর্ড লুকানো</ThemedText>
-                    <ThemedText style={styles.itemDesc}>
-                      ফিজিক্যাল কিবোর্ডে লেখার সময় স্ক্রিনের সফট কিবোর্ড বন্ধ রাখতে উপরের <ThemedText style={{ fontWeight: '700', color: '#10B981' }}>'OTG'</ThemedText> বাটনে চাপুন।
+                  <View
+                    style={[
+                      styles.timelineCard,
+                      {
+                        backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
+                        borderColor: isDark ? '#1E293B' : '#E2E8F0',
+                      },
+                    ]}
+                  >
+                    <View style={styles.cardHeaderWithIcon}>
+                      <MaterialCommunityIcons name="cellphone-text" size={18} color="#F59E0B" />
+                      <ThemedText style={styles.cardMainHeading}>সফট কিবোর্ড লুকান (OTG)</ThemedText>
+                    </View>
+                    <ThemedText style={styles.cardParagraph}>
+                      টাইপিংয়ের সময় স্ক্রিনের অন-স্ক্রিন কীবোর্ড বন্ধ রাখতে উপরের <ThemedText style={{ fontWeight: '800', color: '#10B981' }}>'OTG'</ThemedText> বোতামে স্পর্শ করুন।
                     </ThemedText>
                   </View>
                 </View>
 
-                {/* Item 4: Landscape Fullscreen */}
-                <View
-                  style={[
-                    styles.iconCard,
-                    {
-                      backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
-                      borderColor: isDark ? '#1E293B' : '#E2E8F0',
-                    },
-                  ]}
-                >
-                  <View style={[styles.leadingIcon, { backgroundColor: '#8B5CF6' }]}>
-                    <MaterialCommunityIcons name="phone-rotate-landscape" size={22} color="#FFFFFF" />
+                {/* Timeline Item 4 */}
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineLeftTrack}>
+                    <View style={[styles.timelineNode, { backgroundColor: '#8B5CF6' }]}>
+                      <ThemedText style={styles.nodeNumber}>৪</ThemedText>
+                    </View>
                   </View>
-                  <View style={styles.cardContent}>
-                    <ThemedText style={styles.itemTitle}>৪. ফুলস্ক্রিন ল্যান্ডস্কেপ ভিউ</ThemedText>
-                    <ThemedText style={styles.itemDesc}>
-                      হেডারের <ThemedText style={{ fontWeight: '700' }}>রোটেট বাটন</ThemedText> চাপলে মোবাইলটি আড়াআড়ি হয়ে কম্পিউটার মনিটরের মতো টাইপরাইটার ভিউ পাবেন।
+                  <View
+                    style={[
+                      styles.timelineCard,
+                      {
+                        backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
+                        borderColor: isDark ? '#1E293B' : '#E2E8F0',
+                      },
+                    ]}
+                  >
+                    <View style={styles.cardHeaderWithIcon}>
+                      <MaterialCommunityIcons name="phone-rotate-landscape" size={18} color="#8B5CF6" />
+                      <ThemedText style={styles.cardMainHeading}>ল্যান্ডস্কেপ রোটেট ভিউ</ThemedText>
+                    </View>
+                    <ThemedText style={styles.cardParagraph}>
+                      হেডারের <ThemedText style={{ fontWeight: '800' }}>রোটেট বাটন</ThemedText> চাপলে মোবাইল স্ক্রিন আড়াআড়ি হয়ে যাবে এবং ফুলস্ক্রিনে আরামদায়ক টাইপিং উপভোগ করতে পারবেন।
                     </ThemedText>
                   </View>
                 </View>
               </View>
             )}
 
-            {/* TAB 2: ICON-BASED SHORTCUTS */}
+            {/* TAB 2: MOBILE VS PC CARDS */}
             {activeTab === 'mobile_keys' && (
-              <View style={styles.iconList}>
-                {/* Mobile Section Header Card */}
+              <View style={styles.compareWrapper}>
+                {/* Card 1: Mobile Mode */}
                 <View
                   style={[
-                    styles.iconCard,
+                    styles.compareCard,
                     {
                       backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
                       borderColor: isDark ? '#1E293B' : '#E2E8F0',
                     },
                   ]}
                 >
-                  <View style={[styles.leadingIcon, { backgroundColor: '#2563EB' }]}>
-                    <Ionicons name="phone-portrait" size={20} color="#FFFFFF" />
+                  <View style={styles.compareCardHeader}>
+                    <View style={styles.cardHeaderLeft}>
+                      <Ionicons name="phone-portrait" size={18} color="#2563EB" />
+                      <ThemedText style={styles.compareTitle}>মোবাইল মোড</ThemedText>
+                    </View>
+                    <View style={styles.activePillBadge}>
+                      <ThemedText style={styles.activePillBadgeText}>ডিফল্ট অন</ThemedText>
+                    </View>
                   </View>
-                  <View style={styles.cardContent}>
-                    <View style={styles.titleWithBadge}>
-                      <ThemedText style={styles.itemTitle}>📱 মোবাইল শর্টকাট</ThemedText>
-                      <View style={styles.activeTag}>
-                        <ThemedText style={styles.activeTagText}>ডিফল্ট অন</ThemedText>
-                      </View>
-                    </View>
-                    <ThemedText style={styles.itemDesc}>
-                      মোবাইলে ব্যাকস্ল্যাশ কী সহজে না থাকায় এই সহজ শর্টকাট রাখা হয়েছে:
-                    </ThemedText>
 
-                    {/* Visual Key Rows */}
-                    <View style={styles.keyRowBox}>
-                      <View style={styles.keyPair}>
-                        <View style={styles.keyTag}><ThemedText style={styles.keyTagText}>/</ThemedText></View>
-                        <ThemedText style={styles.arrowIcon}>➔</ThemedText>
-                        <ThemedText style={styles.outputLetter}>ঃ (বিসর্গ)</ThemedText>
-                      </View>
-                      <ThemedText style={styles.exampleWord}>যেমন: দুঃখ = l + s + / + Shift+J</ThemedText>
-                    </View>
+                  <ThemedText style={styles.compareDesc}>
+                    মোবাইলের কিবোর্ডে সহজে <ThemedText style={{ fontWeight: '700' }}>\</ThemedText> ও <ThemedText style={{ fontWeight: '700' }}>|</ThemedText> না থাকায় এই শর্টকাট রাখা হয়েছে:
+                  </ThemedText>
 
-                    <View style={[styles.keyRowBox, { marginTop: 6 }]}>
-                      <View style={styles.keyPair}>
-                        <View style={styles.keyTag}><ThemedText style={styles.keyTagText}>?</ThemedText></View>
-                        <ThemedText style={styles.arrowIcon}>➔</ThemedText>
-                        <ThemedText style={styles.outputLetter}>ৎ (খণ্ড-ত)</ThemedText>
-                      </View>
-                      <ThemedText style={styles.exampleWord}>যেমন: উৎসব = g+s + ? + n + h</ThemedText>
+                  {/* Flow items */}
+                  <View style={styles.keyFlowBox}>
+                    <View style={styles.keyFlowItem}>
+                      <View style={styles.darkKeycap}><ThemedText style={styles.darkKeycapText}>/</ThemedText></View>
+                      <ThemedText style={styles.flowArrowIcon}>➔</ThemedText>
+                      <View style={styles.banglaBadge}><ThemedText style={styles.banglaBadgeText}>ঃ (বিসর্গ)</ThemedText></View>
                     </View>
+                    <ThemedText style={styles.flowExampleNote}>যেমন: দুঃখ = l + s + / + Shift+J</ThemedText>
+                  </View>
+
+                  <View style={[styles.keyFlowBox, { marginTop: 6 }]}>
+                    <View style={styles.keyFlowItem}>
+                      <View style={styles.darkKeycap}><ThemedText style={styles.darkKeycapText}>? বা Shift+/</ThemedText></View>
+                      <ThemedText style={styles.flowArrowIcon}>➔</ThemedText>
+                      <View style={styles.banglaBadge}><ThemedText style={styles.banglaBadgeText}>ৎ (খণ্ড-ত)</ThemedText></View>
+                    </View>
+                    <ThemedText style={styles.flowExampleNote}>যেমন: উৎসব = g+s + ? + n + h</ThemedText>
                   </View>
                 </View>
 
-                {/* PC Section Card */}
+                {/* Card 2: PC Mode */}
                 <View
                   style={[
-                    styles.iconCard,
+                    styles.compareCard,
                     {
                       backgroundColor: isDark ? '#131A2A' : '#FFFFFF',
                       borderColor: isDark ? '#1E293B' : '#E2E8F0',
                     },
                   ]}
                 >
-                  <View style={[styles.leadingIcon, { backgroundColor: '#6366F1' }]}>
-                    <MaterialCommunityIcons name="laptop" size={20} color="#FFFFFF" />
+                  <View style={styles.compareCardHeader}>
+                    <View style={styles.cardHeaderLeft}>
+                      <MaterialCommunityIcons name="laptop" size={18} color="#6366F1" />
+                      <ThemedText style={styles.compareTitle}>পিসি / ডেস্কটপ মোড</ThemedText>
+                    </View>
                   </View>
-                  <View style={styles.cardContent}>
-                    <ThemedText style={styles.itemTitle}>💻 পিসির কিবোর্ড শর্টকাট</ThemedText>
-                    <ThemedText style={styles.itemDesc}>
-                      কম্পিউটারের ফিজিক্যাল কিবোর্ড দিয়ে স্ট্যান্ডার্ড টাইপিংয়ের নিয়ম:
-                    </ThemedText>
 
-                    <View style={styles.keyRowBox}>
-                      <View style={styles.keyPair}>
-                        <View style={styles.keyTag}><ThemedText style={styles.keyTagText}>\</ThemedText></View>
-                        <ThemedText style={styles.arrowIcon}>➔</ThemedText>
-                        <ThemedText style={styles.outputLetter}>ৎ (খণ্ড-ত)</ThemedText>
-                      </View>
-                    </View>
+                  <ThemedText style={styles.compareDesc}>
+                    কম্পিউটারের স্ট্যান্ডার্ড ফিজিক্যাল কিবোর্ড ব্যবহার করলে:
+                  </ThemedText>
 
-                    <View style={[styles.keyRowBox, { marginTop: 6 }]}>
-                      <View style={styles.keyPair}>
-                        <View style={styles.keyTag}><ThemedText style={styles.keyTagText}>Shift + \</ThemedText></View>
-                        <ThemedText style={styles.arrowIcon}>➔</ThemedText>
-                        <ThemedText style={styles.outputLetter}>ঃ (বিসর্গ)</ThemedText>
-                      </View>
+                  {/* Flow items */}
+                  <View style={styles.keyFlowBox}>
+                    <View style={styles.keyFlowItem}>
+                      <View style={styles.darkKeycap}><ThemedText style={styles.darkKeycapText}>\</ThemedText></View>
+                      <ThemedText style={styles.flowArrowIcon}>➔</ThemedText>
+                      <View style={styles.banglaBadge}><ThemedText style={styles.banglaBadgeText}>ৎ (খণ্ড-ত)</ThemedText></View>
                     </View>
+                    <ThemedText style={styles.flowExampleNote}>স্বাভাবিক ব্যাকস্ল্যাশ কী</ThemedText>
+                  </View>
+
+                  <View style={[styles.keyFlowBox, { marginTop: 6 }]}>
+                    <View style={styles.keyFlowItem}>
+                      <View style={styles.darkKeycap}><ThemedText style={styles.darkKeycapText}>Shift + \</ThemedText></View>
+                      <ThemedText style={styles.flowArrowIcon}>➔</ThemedText>
+                      <View style={styles.banglaBadge}><ThemedText style={styles.banglaBadgeText}>ঃ (বিসর্গ)</ThemedText></View>
+                    </View>
+                    <ThemedText style={styles.flowExampleNote}>শিফট চেপে ব্যাকস্ল্যাশ</ThemedText>
                   </View>
                 </View>
 
-                {/* Quick 1-Tap Bar */}
+                {/* Card 3: 1-Tap Quick Bar */}
                 <View
                   style={[
-                    styles.iconCard,
+                    styles.compareCard,
                     {
                       backgroundColor: isDark ? '#172554' : '#EFF6FF',
                       borderColor: isDark ? '#1E3A8A' : '#BFDBFE',
                     },
                   ]}
                 >
-                  <View style={[styles.leadingIcon, { backgroundColor: '#2563EB' }]}>
-                    <MaterialCommunityIcons name="gesture-tap" size={20} color="#FFFFFF" />
-                  </View>
-                  <View style={styles.cardContent}>
-                    <ThemedText style={[styles.itemTitle, { color: '#2563EB' }]}>
-                      ১ ট্যাপ ইনপুট (টিপস)
-                    </ThemedText>
-                    <ThemedText style={[styles.itemDesc, { color: isDark ? '#DBEAFE' : '#1E3A8A' }]}>
-                      শর্টকাট চাপতে না চাইলে কিবোর্ডের উপরে থাকা বোতামগুলোতে স্পর্শ করলেই সরাসরি লেখা হয়ে যায়:
-                    </ThemedText>
-
-                    <View style={styles.chipsDisplay}>
-                      {['ৎ', 'ঃ', '।', '৳', 'ঁ', '‘', '’'].map((char) => (
-                        <View
-                          key={char}
-                          style={[
-                            styles.chipBtn,
-                            {
-                              backgroundColor: isDark ? '#1E293B' : '#FFFFFF',
-                              borderColor: isDark ? '#3B82F6' : '#93C5FD',
-                            },
-                          ]}
-                        >
-                          <ThemedText style={styles.chipBtnChar}>{char}</ThemedText>
-                        </View>
-                      ))}
+                  <View style={styles.compareCardHeader}>
+                    <View style={styles.cardHeaderLeft}>
+                      <MaterialCommunityIcons name="gesture-tap" size={18} color="#2563EB" />
+                      <ThemedText style={[styles.compareTitle, { color: '#2563EB' }]}>
+                        ১ ট্যাপ কুইক সিম্বল বার
+                      </ThemedText>
                     </View>
+                  </View>
+
+                  <ThemedText style={[styles.compareDesc, { color: isDark ? '#DBEAFE' : '#1E3A8A' }]}>
+                    শর্টকাট মনে না থাকলে কীবোর্ডের ঠিক উপরে থাকা বোতামগুলোতে স্পর্শ করলেই সরাসরি লেখা হয়ে যায়:
+                  </ThemedText>
+
+                  <View style={styles.chipsDisplayRow}>
+                    {['ৎ', 'ঃ', '।', '৳', 'ঁ', '‘', '’'].map((char) => (
+                      <View
+                        key={char}
+                        style={[
+                          styles.chipSquare,
+                          {
+                            backgroundColor: isDark ? '#1E293B' : '#FFFFFF',
+                            borderColor: isDark ? '#3B82F6' : '#93C5FD',
+                          },
+                        ]}
+                      >
+                        <ThemedText style={styles.chipSquareChar}>{char}</ThemedText>
+                      </View>
+                    ))}
                   </View>
                 </View>
               </View>
@@ -409,17 +399,17 @@ export function BijoyHelpModal({ visible, onClose }: BijoyHelpModalProps) {
               styles.footer,
               {
                 borderTopColor: isDark ? '#1E293B' : '#E2E8F0',
-                backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
+                backgroundColor: isDark ? '#090D16' : '#FFFFFF',
               },
             ]}
           >
             <TouchableOpacity
               activeOpacity={0.85}
-              style={styles.actionButton}
+              style={styles.actionBtn}
               onPress={onClose}
             >
               <Ionicons name="checkmark-circle-outline" size={18} color="#FFFFFF" />
-              <ThemedText style={styles.actionButtonText}>বুঝেছি, শুরু করি</ThemedText>
+              <ThemedText style={styles.actionBtnText}>বুঝেছি, টাইপিং শুরু করি</ThemedText>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -443,16 +433,16 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
   },
-  headerLeft: {
+  headerTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
   },
-  headerIconBox: {
+  sparkleBadge: {
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: 'rgba(37, 99, 235, 0.12)',
+    backgroundColor: 'rgba(245, 158, 11, 0.12)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -479,32 +469,34 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderBottomWidth: 1,
   },
-  tabTrack: {
+  capsuleTrack: {
     flexDirection: 'row',
-    borderRadius: 10,
+    borderRadius: 24,
     padding: 3,
   },
-  tabButton: {
+  capsuleBtn: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
     paddingVertical: 8,
-    borderRadius: 8,
+    borderRadius: 20,
   },
-  activeTabButton: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 3,
-    elevation: 2,
+  activeCapsuleBtn: {
+    backgroundColor: '#2563EB',
+    shadowColor: '#2563EB',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  tabButtonText: {
+  capsuleText: {
     fontSize: 12.5,
     fontWeight: '600',
   },
-  activeTabButtonText: {
+  activeCapsuleText: {
+    color: '#FFFFFF',
     fontWeight: '700',
   },
   scrollView: {
@@ -512,123 +504,175 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: 16,
-    paddingTop: 12,
+    paddingTop: 14,
     paddingBottom: 24,
   },
-  iconList: {
-    gap: 12,
+  timelineWrapper: {
+    paddingLeft: 4,
   },
-  iconCard: {
+  timelineRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 12,
-    padding: 14,
-    borderRadius: 14,
-    borderWidth: 1,
   },
-  leadingIcon: {
-    width: 42,
-    height: 42,
+  timelineLeftTrack: {
+    alignItems: 'center',
+    width: 24,
+  },
+  timelineNode: {
+    width: 24,
+    height: 24,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 3,
-    elevation: 2,
+    zIndex: 2,
   },
-  cardContent: {
+  nodeNumber: {
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '800',
+  },
+  timelineLine: {
+    width: 2,
     flex: 1,
-    gap: 4,
+    minHeight: 40,
+    marginVertical: 4,
   },
-  titleWithBadge: {
+  timelineCard: {
+    flex: 1,
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    marginBottom: 12,
+    gap: 6,
+  },
+  cardHeaderWithIcon: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
   },
-  activeTag: {
-    backgroundColor: '#DCFCE7',
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-    borderRadius: 4,
-  },
-  activeTagText: {
-    fontSize: 8.5,
-    fontWeight: '800',
-    color: '#16A34A',
-  },
-  itemTitle: {
+  cardMainHeading: {
     fontSize: 14.5,
     fontWeight: '800',
   },
-  itemDesc: {
+  cardParagraph: {
     fontSize: 12.5,
     lineHeight: 18,
     opacity: 0.8,
   },
-  badgeRow: {
+  flowRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 6,
     marginTop: 4,
   },
-  chipPill: {
-    backgroundColor: 'rgba(37, 99, 235, 0.1)',
-    paddingHorizontal: 7,
+  flowPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(100, 116, 139, 0.1)',
+    paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
   },
-  chipText: {
+  flowKey: {
     fontSize: 11.5,
     fontWeight: '700',
+  },
+  flowResult: {
+    fontSize: 12,
+    fontWeight: '800',
     color: '#2563EB',
   },
-  keyRowBox: {
-    backgroundColor: 'rgba(100, 116, 139, 0.08)',
-    padding: 8,
-    borderRadius: 8,
-    marginTop: 4,
-    gap: 2,
+  compareWrapper: {
+    gap: 12,
   },
-  keyPair: {
+  compareCard: {
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    gap: 8,
+  },
+  compareCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  cardHeaderLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
   },
-  keyTag: {
+  compareTitle: {
+    fontSize: 14.5,
+    fontWeight: '800',
+  },
+  activePillBadge: {
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 6,
+    paddingVertical: 1.5,
+    borderRadius: 4,
+  },
+  activePillBadgeText: {
+    color: '#16A34A',
+    fontSize: 8.5,
+    fontWeight: '800',
+  },
+  compareDesc: {
+    fontSize: 12.5,
+    lineHeight: 18,
+    opacity: 0.8,
+  },
+  keyFlowBox: {
+    backgroundColor: 'rgba(100, 116, 139, 0.08)',
+    padding: 8,
+    borderRadius: 8,
+    gap: 2,
+  },
+  keyFlowItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  darkKeycap: {
     backgroundColor: '#0F172A',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 5,
   },
-  keyTagText: {
+  darkKeycapText: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 11.5,
     fontWeight: '800',
     fontFamily: 'monospace',
   },
-  arrowIcon: {
+  flowArrowIcon: {
     fontSize: 12,
     opacity: 0.4,
   },
-  outputLetter: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: '#2563EB',
+  banglaBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    backgroundColor: 'rgba(37, 99, 235, 0.1)',
   },
-  exampleWord: {
+  banglaBadgeText: {
+    color: '#2563EB',
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  flowExampleNote: {
     fontSize: 11,
     opacity: 0.6,
     marginTop: 2,
   },
-  chipsDisplay: {
+  chipsDisplayRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 7,
-    marginTop: 6,
+    marginTop: 4,
   },
-  chipBtn: {
+  chipSquare: {
     width: 32,
     height: 32,
     borderRadius: 7,
@@ -636,7 +680,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  chipBtnChar: {
+  chipSquareChar: {
     fontSize: 14,
     fontWeight: '800',
   },
@@ -645,7 +689,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderTopWidth: 1,
   },
-  actionButton: {
+  actionBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -659,7 +703,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  actionButtonText: {
+  actionBtnText: {
     color: '#FFFFFF',
     fontSize: 14.5,
     fontWeight: '700',
