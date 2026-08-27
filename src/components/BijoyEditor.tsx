@@ -429,7 +429,7 @@ export function BijoyEditor({
             >
               <MaterialCommunityIcons
                 name={hideSoftKeyboard ? 'usb' : 'cellphone-text'}
-                size={14}
+                size={13}
                 color={hideSoftKeyboard ? '#10B981' : isDark ? '#94A3B8' : '#64748B'}
               />
               <ThemedText
@@ -442,7 +442,7 @@ export function BijoyEditor({
                   },
                 ]}
               >
-                {hideSoftKeyboard ? 'OTG মোড' : 'টাচ মোড'}
+                {hideSoftKeyboard ? 'OTG' : 'টাচ'}
               </ThemedText>
             </TouchableOpacity>
 
@@ -471,7 +471,7 @@ export function BijoyEditor({
             >
               <MaterialCommunityIcons
                 name={mobileCompatMode ? 'cellphone' : 'laptop'}
-                size={14}
+                size={13}
                 color={mobileCompatMode ? '#6366F1' : isDark ? '#94A3B8' : '#64748B'}
               />
               <ThemedText
@@ -484,7 +484,7 @@ export function BijoyEditor({
                   },
                 ]}
               >
-                {mobileCompatMode ? 'মোবাইল / ?' : 'পিসি \\ |'}
+                {mobileCompatMode ? '/ ?' : '\\ |'}
               </ThemedText>
             </TouchableOpacity>
 
@@ -501,9 +501,9 @@ export function BijoyEditor({
               ]}
               onPress={() => setShowCheatSheet(true)}
             >
-              <Ionicons name="book-outline" size={14} color="#6366F1" />
+              <Ionicons name="book-outline" size={13} color="#6366F1" />
               <ThemedText style={[styles.pillText, { color: '#6366F1' }]}>
-                গাইড
+                চিটশিট
               </ThemedText>
             </TouchableOpacity>
           </View>
@@ -870,7 +870,8 @@ const styles = StyleSheet.create({
   headerCard: {
     borderRadius: 14,
     borderWidth: 1,
-    padding: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
     marginBottom: 8,
     flexDirection: 'row',
     alignItems: 'center',
@@ -880,21 +881,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
-    flexWrap: 'wrap',
-    gap: 8,
   },
   modeSegment: {
     flexDirection: 'row',
     backgroundColor: 'rgba(100, 116, 139, 0.1)',
-    borderRadius: 10,
-    padding: 3,
+    borderRadius: 8,
+    padding: 2,
   },
   segmentBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 6,
   },
   activeSegmentBtn: {
     backgroundColor: '#2563EB',
@@ -905,7 +904,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   segmentText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     opacity: 0.7,
   },
@@ -917,22 +916,22 @@ const styles = StyleSheet.create({
   headerBadges: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 4,
   },
   pillBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 20,
+    paddingHorizontal: 7,
+    paddingVertical: 5,
+    borderRadius: 14,
     borderWidth: 1,
-    gap: 5,
+    gap: 3,
   },
   guidePill: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
   },
   pillText: {
-    fontSize: 11,
+    fontSize: 10.5,
     fontWeight: '700',
   },
   quickSymbolsContainer: {

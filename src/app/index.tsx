@@ -7,6 +7,7 @@ import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
 import { BijoyEditor } from '@/components/BijoyEditor';
 import { DeveloperInfoModal } from '@/components/DeveloperInfoModal';
+import { BijoyHelpModal } from '@/components/BijoyHelpModal';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -16,6 +17,7 @@ export default function HomeScreen() {
 
   const [manualLandscape, setManualLandscape] = useState<boolean>(false);
   const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
+  const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
 
   const isLandscape = isPhysicalLandscape || manualLandscape;
 
@@ -68,6 +70,25 @@ export default function HomeScreen() {
 
             {/* Header Action Buttons */}
             <View style={styles.headerRightActions}>
+              {/* Help & Usage Guide Button */}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={[
+                  styles.iconHeaderBtn,
+                  {
+                    backgroundColor: isDark ? '#1E1B4B' : '#EEF2FF',
+                    borderColor: isDark ? '#4338CA' : '#C7D2FE',
+                  },
+                ]}
+                onPress={() => setShowHelpModal(true)}
+              >
+                <Ionicons
+                  name="help-circle"
+                  size={20}
+                  color="#6366F1"
+                />
+              </TouchableOpacity>
+
               {/* Landscape / Fullscreen Button */}
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -115,6 +136,12 @@ export default function HomeScreen() {
           onToggleOrientation={toggleOrientation}
         />
 
+        {/* Help & Guide Modal */}
+        <BijoyHelpModal
+          visible={showHelpModal}
+          onClose={() => setShowHelpModal(false)}
+        />
+
         {/* Developer Profile Modal */}
         <DeveloperInfoModal
           visible={showInfoModal}
@@ -133,77 +160,81 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingHorizontal: 14,
+    paddingTop: 6,
+    paddingBottom: 6,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   brandContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
+    minWidth: 0,
+    marginRight: 6,
   },
   logoBadge: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
+    width: 38,
+    height: 38,
+    borderRadius: 10,
     backgroundColor: '#2563EB',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#2563EB',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
   },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 5,
   },
   appTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '800',
     color: '#2563EB',
     letterSpacing: -0.3,
   },
   proTag: {
     backgroundColor: '#EEF2FF',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 6,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 5,
     borderWidth: 1,
     borderColor: '#C7D2FE',
   },
   proTagText: {
-    fontSize: 9,
+    fontSize: 8.5,
     fontWeight: '900',
     color: '#4F46E5',
     letterSpacing: 0.5,
   },
   appSubtitle: {
-    fontSize: 12,
+    fontSize: 11,
     opacity: 0.65,
     marginTop: 1,
   },
   headerRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
+    flexShrink: 0,
   },
   iconHeaderBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 10,
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
-    shadowRadius: 3,
+    shadowRadius: 2,
   },
 });
