@@ -134,6 +134,11 @@ export function isBengaliKar(char: string): boolean {
   return (code >= 0x09be && code <= 0x09cc) || code === 0x09d7;
 }
 
+// Check if character is a Bengali prefix Kar (ি, ে, ৈ) which precedes consonant in layout
+export function isBengaliPrefixKar(char: string): boolean {
+  return char === 'ি' || char === 'ে' || char === 'ৈ';
+}
+
 export interface ProcessBijoyKeyOptions {
   mobileCompatMode?: boolean; // When true, '/' -> 'ঃ' and '?' -> 'ৎ'. When false, '/' and '?' are punctuation. Default: true.
 }
@@ -185,17 +190,6 @@ export function processBijoyKey(
       };
     }
 
-    // If the last character was a Kar placed after a consonant (e.g. ি/ে from prefix typing),
-    // and now user presses 'g' to form a conjunct (e.g. 'd' + 'N' + 'g' + 't' -> 'ষ্টি'),
-    // temporarily lift the kar and attach it to the end of the conjunct!
-    if (lastChar && isBengaliKar(lastChar)) {
-      return {
-        textToInsert: '',
-        deleteCount: 1, // remove the kar temporarily
-        newState: { ...state, pendingG: true, pendingPrefixKar: lastChar },
-      };
-    }
-
     return {
       textToInsert: '',
       deleteCount: 0,
@@ -205,40 +199,43 @@ export function processBijoyKey(
 
   // If 'g' was pending:
   if (state.pendingG) {
-    // Check if key is a vowel kar
-    if (G_VOWEL_MAP[key] && !state.pendingPrefixKar) {
+    // 1. Check if key is a vowel kar/key (e.g. g+f -> আ, g+d -> ই, g+s -> উ, etc.)
+    if (G_VOWEL_MAP[key]) {
       const vowel = G_VOWEL_MAP[key];
       return {
         textToInsert: vowel,
         deleteCount: 0,
-        newState: { ...state, pendingG: false },
+        newState: { ...state, pendingG: false, pendingPrefixKar: null },
       };
     }
 
-    // If key maps to a consonant, form a conjunct (e.g., ক + ্ + ত)
+    // 2. If key maps to a consonant, form a conjunct (e.g., ক + ্ + ত -> ক্ত, or ষ্টি, কেন্দ্রে)
     const mapped = BIJOY_KEY_MAP[key];
     if (mapped && isBengaliConsonant(mapped)) {
+      // If the preceding char was a prefix kar ('ি', 'ে', 'ৈ'), move the prefix kar to after this consonant
+      if (lastChar && isBengaliPrefixKar(lastChar)) {
+        return {
+          textToInsert: '্' + mapped + lastChar,
+          deleteCount: 1, // remove the preceding prefix kar
+          newState: { ...state, pendingG: false, pendingPrefixKar: null },
+        };
+      }
+
       let insert = '্' + mapped;
-      let nextPrefixKar = state.pendingPrefixKar;
-      if (nextPrefixKar) {
-        insert += nextPrefixKar;
-        nextPrefixKar = null;
+      if (state.pendingPrefixKar) {
+        insert += state.pendingPrefixKar;
       }
       return {
         textToInsert: insert,
         deleteCount: 0,
-        newState: { ...state, pendingG: false, pendingPrefixKar: nextPrefixKar },
+        newState: { ...state, pendingG: false, pendingPrefixKar: null },
       };
     }
 
-    // If not a vowel and not a conjunct consonant, insert '্' plus whatever key is
+    // 3. If not a vowel and not a conjunct consonant, insert '্' plus whatever key is
     const resolved = BIJOY_KEY_MAP[key] || key;
-    let insert = '্' + resolved;
-    if (state.pendingPrefixKar) {
-      insert += state.pendingPrefixKar;
-    }
     return {
-      textToInsert: insert,
+      textToInsert: '্' + resolved,
       deleteCount: 0,
       newState: { ...state, pendingG: false, pendingPrefixKar: null },
     };
